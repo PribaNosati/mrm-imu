@@ -161,8 +161,8 @@ void Mrm_imu::test() {
 			testHelper();
 		else {
 			for (int i = 0; i < nextFree; i++)
-				robotContainer->print("Y:%3i P:%3i R:%3i", (int)round(heading()), (int)round(pitch()), (int)round(roll()));
-			robotContainer->print("\n\r");
+				print("Y:%3i P:%3i R:%3i", (int)round(heading()), (int)round(pitch()), (int)round(roll()));
+			print("\n\r");
 		}
 #else
 		testHelper();
@@ -174,11 +174,24 @@ void Mrm_imu::test() {
 void Mrm_imu::testHelper() {
 	for (int i = 0; i < nextFree; i++)
 	{
-		robotContainer->print("Y:%i", (int)round(heading()));
-		robotContainer->print(" P:%i", (int)round(pitch()));
-		robotContainer->print(" R:%i", (int)round(roll()));
+		if (robotContainer != NULL){
+			print("Y:%i", (int)round(heading()));
+			print(" P:%i", (int)round(pitch()));
+			print(" R:%i", (int)round(roll()));
+		}
+		else{
+			Serial.print("Y:");
+			Serial.print((int)round(heading()));
+			Serial.print(" P:");
+			Serial.print((int)round(pitch()));
+			Serial.print(" R:");
+			Serial.print((int)round(roll()));
+		}
 	}
-	robotContainer->print("\n\r");
+	if (robotContainer != NULL)
+		print("\n\r");
+	else
+		Serial.println();
 }
 
 /*----------------------------------------------------------------------------*
@@ -700,7 +713,10 @@ void BNO055_delay_msek(u32 msek)
 void Mrm_imu::bno055Initialize(bool defaultI2CAddress)
 {
 #ifdef ESP_PLATFORM
-	robotContainer->print("Starting IMU...");
+	if (robotContainer != NULL)
+		print("Starting IMU...");
+	else
+		Serial.print("Starting IMU...");
 #else
 	Serial.print("Starting IMU...");
 #endif
@@ -738,7 +754,10 @@ void Mrm_imu::bno055Initialize(bool defaultI2CAddress)
 #endif
 	}
 #ifdef ESP_PLATFORM
-	robotContainer->print("OK\n\r");
+	if (robotContainer != NULL)
+		print("OK\n\r");
+	else
+		Serial.print("OK\n\r");
 #else
 	Serial.println("OK");
 #endif
