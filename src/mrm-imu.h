@@ -23,9 +23,6 @@ class Mrm_imu
 	bool defaultI2CAddresses[MAX_MRM_IMU]; //If true, it will use default I2C address (0x29) otherwise 0x28.
 	struct bno055_t bno055; // Structure declaration.
 	int nextFree;
-#ifdef ESP_PLATFORM
-	Robot* robotContainer;
-#endif
 
 	void bno055Initialize(bool defaultI2CAddress = true); //IMU initialization of the sensor. It should be called once, after Wire.begin(). 
 
@@ -39,11 +36,7 @@ public:
 	/**Constructor
 	@param robot - robot containing this board
 	*/
-#ifdef ESP_PLATFORM
-	Mrm_imu(Robot* robot = NULL);
-#else
 	Mrm_imu();
-#endif
 
 	~Mrm_imu();
 
@@ -63,7 +56,7 @@ public:
 	uint8_t gyroCalibration();
 
 	/**Compass
-	@return - North is 0º, clockwise are positive angles, values 0 - 360.
+	@return - North is 0ï¿½, clockwise are positive angles, values 0 - 360.
 	*/
 	float heading();
 
@@ -73,12 +66,12 @@ public:
 	uint8_t magneticCalibration();
 
 	/**Pitch
-	@return - Pitch in degrees. Inclination forwards or backwards. Leveled robot shows 0º.
+	@return - Pitch in degrees. Inclination forwards or backwards. Leveled robot shows 0ï¿½.
 	*/
 	float pitch();
 
 	/**Roll
-	@return - Roll in degrees. Inclination to the left or right. Values -90 - 90. Leveled robot shows 0º.
+	@return - Roll in degrees. Inclination to the left or right. Values -90 - 90. Leveled robot shows 0ï¿½.
 	*/
 	float roll();
 
